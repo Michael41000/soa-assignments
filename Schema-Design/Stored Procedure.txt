@@ -1,0 +1,18 @@
+CREATE OR REPLACE FUNCTION findPersonWithInterestAndLocation (interestNum int, locationNum int) 
+ RETURNS TABLE (
+ firstName text,
+ lastName text
+) 
+AS $$
+BEGIN
+ RETURN QUERY SELECT "Person"."firstName", "Person"."lastName" from "Person"
+INNER JOIN "PersonInterest"
+ON "Person".id = "PersonInterest".person_id
+INNER JOIN "Interest"
+ON "PersonInterest".interest_id = "Interest".id
+INNER JOIN "Location"
+ON "Person".location_id = "Location".id
+where "Interest".id = interestNum AND "Location".id = locationNum;
+END; $$ 
+ 
+LANGUAGE 'plpgsql';

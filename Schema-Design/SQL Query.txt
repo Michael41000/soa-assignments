@@ -1,0 +1,19 @@
+select distinct on (tblC.pid) "firstName", "lastName", title, city, state, country from 
+(SELECT  "firstName", "lastName", title, city, state, country, tblA.pid
+FROM (select "firstName", "lastName", title, city, state, country, "Interest".id as iid, "Location".id as lid, "Person".id as pid from "Person"
+INNER JOIN "PersonInterest"
+ON "Person".id = "PersonInterest".person_id
+INNER JOIN "Interest"
+ON "PersonInterest".interest_id = "Interest".id
+INNER JOIN "Location"
+ON "Person".location_id = "Location".id) as tblA
+inner join (SELECT "Interest".id as iid, "Location".id as lid from "Person"
+INNER JOIN "PersonInterest"
+ON "Person".id = "PersonInterest".person_id
+INNER JOIN "Interest"
+ON "PersonInterest".interest_id = "Interest".id
+INNER JOIN "Location"
+ON "Person".location_id = "Location".id group by iid, lid having count(*) > 1) as tblB
+on tblA.iid = tblB.iid AND tblB.lid = tblA.lid
+where tblA.lid = 1 --hardcoded
+order by title) as tblC
