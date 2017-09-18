@@ -37,6 +37,11 @@ public class InterestDao {
 	
 	public void save(Interest interest)
 	{
+		if (interest == null)
+		{
+			return;
+		}
+		
 		if (interest.getId() == null)
 		{
 			try {

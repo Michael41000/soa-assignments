@@ -72,8 +72,13 @@ public class PersonDao {
 		return person;
 	}
 	
-	public void save(Person person) throws NoSuchElementException
+	public void save(Person person)
 	{
+		if (person == null)
+		{
+			return;
+		}
+		
 		LocationDao locationDao = new LocationDao();
 		locationDao.save(person.getLocation());
 
@@ -86,9 +91,6 @@ public class PersonDao {
 		if (person.getId() == null) 
 		{
 			try {
-
-				
-
 				Connection connection = getConnection();
 				String SQL_INSERT = "insert into \"Person\" (\"firstName\", \"lastName\", age, location_id) values (?, ?, ?, ?)";
 				PreparedStatement statement = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
@@ -127,11 +129,7 @@ public class PersonDao {
 		else 
 		{
 
-			update("DELETE FROM \"PersonInterest\" " +
-					"WHERE person_id = " + person.getId());
-			for (Interest interest : interests) {
-				savePersonInterests(person.getId(), interest.getId());
-			}
+			
 			
 			Long pid = person.getId();
 			String firstName = person.getFirstName();
@@ -147,10 +145,12 @@ public class PersonDao {
 			if (numUpdates == 0) {
 				throw new NoSuchElementException();
 			}
-
 			
-			
-			
+			update("DELETE FROM \"PersonInterest\" " +
+					"WHERE person_id = " + person.getId());
+			for (Interest interest : interests) {
+				savePersonInterests(person.getId(), interest.getId());
+			}
 		}
 	}
 	

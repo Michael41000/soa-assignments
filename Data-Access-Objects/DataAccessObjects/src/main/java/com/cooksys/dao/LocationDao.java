@@ -40,6 +40,11 @@ public class LocationDao {
 
 	public void save(Location location)
 	{
+		if (location == null)
+		{
+			return;
+		}
+		
 		if (location.getId() == null)
 		{
 			try {
