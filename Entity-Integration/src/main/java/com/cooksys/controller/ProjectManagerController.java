@@ -1,6 +1,9 @@
 package com.cooksys.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cooksys.dto.ProjectDto;
 import com.cooksys.dto.ProjectManagerDto;
+import com.cooksys.dto.ProjectManagerDtoOverdue;
+import com.cooksys.entity.ProjectManager;
 import com.cooksys.service.ProjectManagerService;
 
 import io.swagger.annotations.ApiOperation;
@@ -67,6 +73,24 @@ public class ProjectManagerController {
 	@ApiOperation(value = "", nickname = "deleteProjectManagerAtId")
 	public void delete(@PathVariable Long id, HttpServletResponse httpResponse) {
 		projectManagerService.delete(id);
+	}
+	
+	@PostMapping("{id}/project/{projectId}")
+	public ProjectDto addProject(@PathVariable Long id, @PathVariable Long projectId)
+	{
+		return projectManagerService.addProject(id, projectId);
+	}
+	
+	@GetMapping("{id}/project")
+	public Set<ProjectDto> getProjects(@PathVariable Long id)
+	{
+		return projectManagerService.getProjects(id);
+	}
+	
+	@GetMapping("overdue")
+	public List<ProjectManagerDtoOverdue> getOverdueProjects()
+	{
+		return projectManagerService.getOverdueProjects();
 	}
 
 }

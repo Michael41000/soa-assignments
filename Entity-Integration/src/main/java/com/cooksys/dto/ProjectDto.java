@@ -1,26 +1,13 @@
-package com.cooksys.entity;
+package com.cooksys.dto;
 
 import java.sql.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
-import com.cooksys.dto.datatype.BaseEntity;
-
-@Entity
-public class Project implements BaseEntity<Long> {
-
-	@Id
-	@GeneratedValue
+public class ProjectDto {
+	
 	private Long id;
 	
-	@ManyToOne
-	private ProjectManager manager;
-	
 	private Date startDate;
-
+	
 	private Date dueDate;
 
 	public Long getId() {
@@ -31,14 +18,6 @@ public class Project implements BaseEntity<Long> {
 		this.id = id;
 	}
 
-	public ProjectManager getManager() {
-		return manager;
-	}
-
-	public void setManager(ProjectManager manager) {
-		this.manager = manager;
-	}
-	
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -71,7 +50,7 @@ public class Project implements BaseEntity<Long> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Project other = (Project) obj;
+		ProjectDto other = (ProjectDto) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -79,7 +58,4 @@ public class Project implements BaseEntity<Long> {
 			return false;
 		return true;
 	}
-	
-	
-	
 }
